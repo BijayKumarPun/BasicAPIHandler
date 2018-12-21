@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">APIHandler</string>
+
+<string name="URL_POST_NEW_POST">http://192.168.1.16:8000/api/posts/new</string>
+    <string name="URL_POST_LIST_ALL">http://192.168.1.16:8000/api/posts/all</string>
+    <string name="URL_POST_LIST_POST_BY_ID">http://192.168.1.16:8000/api/posts/by_id</string>
+
+
+
+
+
+</resources>
