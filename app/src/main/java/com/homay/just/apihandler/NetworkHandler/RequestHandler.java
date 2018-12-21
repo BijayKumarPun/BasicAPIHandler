@@ -52,62 +52,6 @@ public class RequestHandler extends AsyncTask<Void, Void, JsonArray> {
     }
 
 
-
-
-
-
-/*
-
-    private static class NetworkCommunicator extends AsyncTask<Void, Void, JsonArray> {
-        String TAG = "Network Communicator";
-        Request request;
-        RequestBody requestBody;
-
-        NetworkCommunicator(Request request, RequestBody requestBody) {
-            this.request = request;
-            this.requestBody = requestBody;
-
-        }
-
-        @Override
-        protected JsonArray doInBackground(Void... voids) {
-            OkHttpClient okHttpClient = new OkHttpClient();
-
-
-            try {
-                Response response = okHttpClient.newCall(request).execute();
-                if (response.isSuccessful()) {
-                    Log.i(TAG, "doInBackground: Successful");
-                    String stringResponse = response.body().string();
-
-                    JsonParser jsonParser = new JsonParser();
-
-                    JsonArray jsonArray = (JsonArray) jsonParser.parse(stringResponse);
-
-
-                    return jsonArray;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JsonArray jsonArray) {
-            super.onPostExecute(jsonArray);
-            Log.i(TAG, "onPostExecute: jsonarray" + jsonArray);
-
-
-
-        }
-
-
-        //end of inner class*/
-
-
     @Override
     protected JsonArray doInBackground(Void... voids) {
         OkHttpClient okHttpClient = new OkHttpClient();

@@ -29,25 +29,10 @@ public class MainActivity extends AppCompatActivity {
         String POST_URL = getResources().getString(R.string.URL_POST_NEW_POST);
         String GET_URL = getResources().getString(R.string.URL_POST_LIST_ALL);
         String GET_BY_ID_URL = getResources().getString(R.string.URL_POST_LIST_POST_BY_ID);
+        DataModel dataModel = new DataModel();
+dataModel.setPost_creator("John Cena");
 
-
-        //Post a DATA MODEL
-        RequestHandler requestHandler = new RequestHandler(dataModelGlobal.getRequestBody("POST"), POST_URL, "POST");
-        //  requestHandler.execute();
-
-
-        //Get a DATA MODEL
-        RequestHandler requestHandler1 = new RequestHandler(dataModelGlobal.getRequestBody("GET"), GET_URL, "GET");
-        //requestHandler1.execute();
-
-//Get data model by id
-
-        RequestHandler requestHandler2 = new RequestHandler(dataModelGlobal.getRequestBodyBy("_id", "whothis232asd3"), GET_BY_ID_URL, "POST");
-        //requestHandler2.execute();
-
-        //get data by creator
-
-        RequestHandler requestHandler3 = new RequestHandler(dataModelGlobal.getRequestBodyBy("post_creator", "John Cena"), getResources().getString(R.string.URL_POST_LIST_BY_CREATOR), "POST");
+        RequestHandler requestHandler3 = new RequestHandler(dataModel.getRequestBody(), getResources().getString(R.string.URL_POST_LIST_BY_CREATOR), "POST");
         requestHandler3.setNetworkResponseListener(new NetworkResponseListener() {
             @Override
             public void onExecutionComplete(JsonArray jsonArrayResonse) {
@@ -57,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 for (int i = 0; i < dataModels.size(); i++) {
-                    Log.i(TAG, "onExecutionComplete: datamodels email"+dataModels.get(i).getPost_creator());
+                    Log.i(TAG, "onExecutionComplete: datamodels title"+dataModels.get(i).getPost_title());
                 }
 
 

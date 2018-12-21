@@ -26,8 +26,9 @@ public class DataModel {
         return post_title;
     }
 
-    public void setPost_title(String post_title) {
+    public DataModel setPost_title(String post_title) {
         this.post_title = post_title;
+        return this;
     }
 
     public String getPost_body() {
@@ -74,38 +75,24 @@ public class DataModel {
     public DataModel() {
 
 
-
     }
 
-    public RequestBody getRequestBody(String body_type) {
-        switch (body_type) {
-            case "POST":
-                return new FormBody.Builder()
-                        .add("_id", this.get_id())
-                        .add("post_title", this.getPost_title())
-                        .add("post_body", this.getPost_body())
-                        .add("post_creator", this.getPost_creator())
-                        .add("post_likes_count", this.getPost_likes_count())
-                        .add("post_comment_count", this.getPost_comment_count())
-                        .add("post_view_count", this.getPost_view_count())
-                        .build();
+    public RequestBody getRequestBody() {
 
-            case "GET":
-                return new FormBody.Builder()
-                        .build();
-        }
+        FormBody.Builder builder = new FormBody.Builder();
+        if (_id != null) builder.add("_id", this.get_id());
 
-        return null;
+        if (post_title != null) builder.add("post_title", this.getPost_title());
+        if (post_body != null) builder.add("post_body", this.getPost_body());
+        if (post_creator != null) builder.add("post_creator", this.getPost_creator());
+        if (post_likes_count != null) builder.add("post_likes_count", this.getPost_likes_count());
+        if (post_comment_count != null)
+            builder.add("post_comment_count", this.getPost_comment_count());
+        if (post_view_count != null) builder.add("post_view_count", this.getPost_view_count());
+
+
+        return builder.build();
     }
-
-    public RequestBody getRequestBodyBy(String parameter, String value) {
-        return new FormBody.Builder()
-                .add(parameter, value)
-                .build();
-    }
-
-
-
 
 
 }
