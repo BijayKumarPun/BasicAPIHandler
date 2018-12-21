@@ -2,15 +2,20 @@ package com.homay.just.apihandler.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.homay.just.apihandler.Model.DataModel;
+import com.homay.just.apihandler.NetworkHandler.NetworkResponseListener;
 import com.homay.just.apihandler.NetworkHandler.RequestHandler;
 import com.homay.just.apihandler.NetworkHandler.ResponseHandler;
 import com.homay.just.apihandler.R;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
+    String TAG = "MainActivity";
 
 
     @Override
@@ -28,43 +33,42 @@ public class MainActivity extends AppCompatActivity {
 
         //Post a DATA MODEL
         RequestHandler requestHandler = new RequestHandler(dataModelGlobal.getRequestBody("POST"), POST_URL, "POST");
-        requestHandler.executeRequest();
+        //  requestHandler.execute();
 
 
         //Get a DATA MODEL
         RequestHandler requestHandler1 = new RequestHandler(dataModelGlobal.getRequestBody("GET"), GET_URL, "GET");
-        requestHandler1.executeRequest();
+        //requestHandler1.execute();
 
 //Get data model by id
 
         RequestHandler requestHandler2 = new RequestHandler(dataModelGlobal.getRequestBodyBy("_id", "whothis232asd3"), GET_BY_ID_URL, "POST");
-        requestHandler2.executeRequest();
+        //requestHandler2.execute();
+
+        //get data by creator
+
+        RequestHandler requestHandler3 = new RequestHandler(dataModelGlobal.getRequestBodyBy("post_creator", "John Cena"), getResources().getString(R.string.URL_POST_LIST_BY_CREATOR), "POST");
+        requestHandler3.setNetworkResponseListener(new NetworkResponseListener() {
+            @Override
+            public void onExecutionComplete(JsonArray jsonArrayResonse) {
+                Log.i(TAG, "onExecutionComplete: " + jsonArrayResonse.toString());
+
+                ArrayList<DataModel> dataModels=  new ResponseHandler().intoModelObjects(jsonArrayResonse);
+
+
+                for (int i = 0; i < dataModels.size(); i++) {
+                    Log.i(TAG, "onExecutionComplete: datamodels email"+dataModels.get(i).getPost_creator());
+                }
+
+
+            }
+        });
+        requestHandler3.execute();
+
+
+
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private DataModel createStaticDataModel() {

@@ -100,7 +100,7 @@ public class DataModel {
 
     public RequestBody getRequestBodyBy(String parameter, String value) {
         return new FormBody.Builder()
-                .add(parameter, _id)
+                .add(parameter, value)
                 .build();
     }
 
