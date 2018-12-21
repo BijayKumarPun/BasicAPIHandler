@@ -1,36 +1,37 @@
 package com.homay.just.apihandler.NetworkHandler;
 
+import android.os.AsyncTask;
+import android.util.JsonReader;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import com.homay.just.apihandler.Model.DataModel;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
+
 import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RequestHandler {
     private String TAG = "Inside RequestHandler";
     RequestBody requestBody;
     Request request;
+ResponseHandler responseHandler;
 
-
-    public RequestHandler(DataModel dataModel) {
-        requestBody = new FormBody.Builder()
-                .add("_id", dataModel.get_id())
-                .add("post_title", dataModel.getPost_title())
-                .add("post_body", dataModel.getPost_body())
-                .add("post_creator", dataModel.getPost_creator())
-                .add("post_likes_count", dataModel.getPost_likes_count())
-                .add("post_comment_count", dataModel.getPost_comment_count())
-                .add("post_view_count", dataModel.getPost_view_count())
-                .build();
-
+    public RequestHandler(RequestBody requestBody, String URL, String HTTP_METHOD) {
+        this.requestBody = requestBody;
+        defineRequest(URL, HTTP_METHOD);
     }
 
-    public RequestHandler() {
-        requestBody = new FormBody.Builder().build();
-    }
+
 
     public void defineRequest(String MY_URL, String HTTP_METHOD) {
 
@@ -61,9 +62,60 @@ public class RequestHandler {
 
         NetworkCommunicator networkCommunicator = new NetworkCommunicator(request, requestBody);
         networkCommunicator.execute();
-
-
     }
 
 
+
+
+
+    private static class NetworkCommunicator extends AsyncTask<Void, Void, JsonArray> {
+        String TAG = "Network Communicator";
+        Request request;
+        RequestBody requestBody;
+
+        NetworkCommunicator(Request request, RequestBody requestBody) {
+            this.request = request;
+            this.requestBody = requestBody;
+
+        }
+
+        @Override
+        protected JsonArray doInBackground(Void... voids) {
+            OkHttpClient okHttpClient = new OkHttpClient();
+
+
+            try {
+                Response response = okHttpClient.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    Log.i(TAG, "doInBackground: Successful");
+                    String stringResponse = response.body().string();
+
+                    JsonParser jsonParser = new JsonParser();
+
+                    JsonArray jsonArray = (JsonArray) jsonParser.parse(stringResponse);
+
+
+                    return jsonArray;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JsonArray jsonArray) {
+            super.onPostExecute(jsonArray);
+            Log.i(TAG, "onPostExecute: jsonarray" + jsonArray);
+
+
+        }
+
+
+        //end of inner class
+    }
+
+//end of outer class
 }

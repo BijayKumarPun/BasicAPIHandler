@@ -1,5 +1,8 @@
 package com.homay.just.apihandler.Model;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class DataModel {
 
     private String _id;
@@ -73,6 +76,35 @@ public class DataModel {
 
 
     }
+
+    public RequestBody getRequestBody(String body_type) {
+        switch (body_type) {
+            case "POST":
+                return new FormBody.Builder()
+                        .add("_id", this.get_id())
+                        .add("post_title", this.getPost_title())
+                        .add("post_body", this.getPost_body())
+                        .add("post_creator", this.getPost_creator())
+                        .add("post_likes_count", this.getPost_likes_count())
+                        .add("post_comment_count", this.getPost_comment_count())
+                        .add("post_view_count", this.getPost_view_count())
+                        .build();
+
+            case "GET":
+                return new FormBody.Builder()
+                        .build();
+        }
+
+        return null;
+    }
+
+    public RequestBody getRequestBodyBy(String parameter, String value) {
+        return new FormBody.Builder()
+                .add(parameter, _id)
+                .build();
+    }
+
+
 
 
 
